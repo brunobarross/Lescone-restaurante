@@ -1,0 +1,19 @@
+footer {
+  padding: 20px 0;
+  background: $cinza;
+  @include box-shadow(0 0 0 10px $cinza);
+  p {
+    color: $bege-claro;
+    display: inline-block;
+    @include responsivo(mobile) {
+      text-align: center;
+    }
+  }
+  a img {
+    float: right;
+    @include responsivo(mobile) {
+      float: none;
+      margin: 20px auto;
+    }
+  }
+}

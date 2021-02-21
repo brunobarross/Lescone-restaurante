@@ -1,6 +1,6 @@
 // váriaveis do grid
 $cols: 12;
-$gutter: 20;
+$gutter: 20px;
 $l-device: 1200px;
 $m-device: 760px;
 $s-device: 480px;
@@ -29,4 +29,110 @@ $s-device: 480px;
       @content;
     }
   }
+}
+
+// função do grid //
+
+@function grid($col, $offset: false) {
+  $width: $col / $cols * 100 + "%";
+  $result: calc(#{$width} - #{$gutter});
+  @if $offset == offset {
+    $gutter: $gutter / 2;
+    $result: calc(#{$width} + #{$gutter});
+  }
+  @return $result;
+}
+
+// se for GRID(4) É COMO SE FOSSE 4/12 *100 + "%" DARIA 33,3333%;
+
+//GERA AS CLASSES DE GRID
+
+@for $i from 1 through $cols {
+  .grid-#{$i} {
+    width: grid($i);
+  }
+}
+
+//MIXIN ESTRUTURA DO GRID
+
+@mixin estrutura-grid {
+  float: left;
+  min-height: 1px;
+  margin-left: $gutter / 2;
+  margin-right: $gutter / 2;
+  @include responsivo(mobile) {
+    width: 100%;
+    float: none;
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+}
+
+//SELETOR [CLASS] SELECIONA TODO O ATRIBUTO CLASS QUE FOR DECLARADO NO HTML
+//UTILIZANDO ^ CONSEGUIMOS SELECIONAR TODO ITEM QUE COMEÇE COM DETERMINADO NOME, EXEMPLO: [CLASS ^="ITEM-"] ELE VAI SELECIONAR TUDO O QUE COMEÇA COM ITEM-
+
+[class^="grid-"] {
+  @include estrutura-grid;
+}
+
+// GERA AS CLASSES DE OFFSET
+
+@for $i from 1 through $cols {
+  .offset-#{$i} {
+    margin-left: grid($i, offset);
+    @extend %offset;
+  }
+}
+
+@include responsivo(mobile) {
+  %offset {
+    margin-left: 0px;
+  }
+}
+
+// Mixin de clearfix
+
+@mixin clearfix {
+  &::after,
+  &::before {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+
+// MIXIN CONTAINER
+
+@mixin container {
+  max-width: $l-device;
+  margin: 0 auto;
+  position: relative;
+  @include responsivo(tablet) {
+    max-width: $m-device;
+  }
+  @include responsivo(mobile) {
+    max-width: $s-device;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  @include clearfix;
+}
+
+.container {
+  @include container;
+}
+
+@mixin row {
+  margin-left: -$gutter/2;
+  margin-right: -$gutter/2;
+  position: relative;
+  @include responsivo(mobile) {
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+  @include clearfix;
+}
+
+.row {
+  @include row;
 }

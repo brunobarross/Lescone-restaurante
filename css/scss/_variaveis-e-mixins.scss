@@ -1,0 +1,45 @@
+// Cores
+
+$bege-claro: #edece4;
+$bege-medio: #cbc6b9;
+$bege-escuro: #988c77;
+$cinza: #2a2426;
+$verde: #1ab912;
+
+// Fontes
+
+$fonte-1: "PT Mono", monospace;
+$fonte-2: "Aref Ruqaa", serif;
+
+// CALCULO DE EM
+
+@function em($pixel, $contexto: 16) {
+  @return $pixel / $contexto + em;
+}
+
+// Mixin Tipografia
+
+@mixin tipo-1($tamanho) {
+  font-family: $fonte-1;
+  @if $tamanho == 18 {
+    font-size: em(18);
+    line-height: em(30, 18); // mudo o contexto do em pra 18
+  }
+}
+
+@mixin tipo-2($tamanho) {
+  font-family: $fonte-2;
+  @if $tamanho == 18 {
+    font-size: em(18);
+    line-height: em(30, 18);
+  } @else if $tamanho == 24 {
+    font-size: em(24);
+    line-height: em(30, 24); //contexto de 24pixels
+  }
+}
+
+@mixin box-shadow($shadow...) {
+  -webkit-box-shadow: $shadow;
+  -moz-box-shadow: $shadow;
+  box-shadow: $shadow;
+}
